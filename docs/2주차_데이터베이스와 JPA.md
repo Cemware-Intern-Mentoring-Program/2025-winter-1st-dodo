@@ -18,9 +18,9 @@ JPA (Java Persistence API) 표준을 구현한 Hibernate와 그 위에 구축된
 ### Spring Data JPA란 무엇일까요?
 - Spring data: 클라이언트의 요청에 따라 데이터를 가져오는 상황에서 스프링 데이터가 이를 Repository 영역이 담당하도록 강제하여 데이터를 가공하여 응답하는 Service 영역과 분리되도록 함.
 - Spring Data JPA: JPA를 더 편리하게 사용하는 메서드를 제공함.
- - Repository 인터페이스(JPA를 추상화 시킨 인터페이스를 정의하면 자동으로 구현체를 생성, 이를 통해 **CRUD 작업을 위한 코드 중복 감소**)
- - 쿼리 메소드
- - 페이징과 정렬 기능
+  - Repository 인터페이스(JPA를 추상화 시킨 인터페이스를 정의하면 자동으로 구현체를 생성, 이를 통해 **CRUD 작업을 위한 코드 중복 감소**)
+  - 쿼리 메소드
+  - 페이징과 정렬 기능
 
  ### Repository Layer란 무엇일까요?
  데이터 저장소와의 상호작용을 담당하는 계층으로, 주로 엔티티의 CRUD와 같은 데이터 영속성 작업을 추상화함.
@@ -46,13 +46,13 @@ JPA (Java Persistence API) 표준을 구현한 Hibernate와 그 위에 구축된
 
 ### Entity에 관련된 어노테이션은 무엇이 있나요?
 1. 클래스 레벨 어노테이션
-   @Entity: 해당 클래스가 JPA의 엔티티임을 나타냄
-   @Table: 엔티티 클래스가 매핑될 데이터베이스 테이블의 이름을 지정
-   @Access: JPA가 엔티티 데이터에 접근하는 방식을 지정
+   <br>@Entity: 해당 클래스가 JPA의 엔티티임을 나타냄
+   <br>@Table: 엔티티 클래스가 매핑될 데이터베이스 테이블의 이름을 지정
+   <br>@Access: JPA가 엔티티 데이터에 접근하는 방식을 지정
 2. 필드/컬럼 레벨 어노테이션
-  @Id: 엔티티의 기본 키(Primary Key)를 지정
-  @Column: 필드가 매핑될 데이터베이스 컬럼의 속성을 정의
-  @GeneratedValue: 기본 키 값을 자동으로 생성
+  <br>@Id: 엔티티의 기본 키(Primary Key)를 지정
+  <br>@Column: 필드가 매핑될 데이터베이스 컬럼의 속성을 정의
+  <br>@GeneratedValue: 기본 키 값을 자동으로 생성
 
 ---
 
