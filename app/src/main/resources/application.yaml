@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: dodo
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/dodo
+    username: root
+    password: eheh0103
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
