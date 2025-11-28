@@ -1,4 +1,4 @@
-package com.cemware.dodo;
+package com.cemware.dodo.domain;
 
 import jakarta.persistence.*;
 
@@ -9,27 +9,29 @@ public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "groupId")
     private int group_id;
 
     private String name;
 
-    public Group() {}
+    protected Group() {}
 
     public int getGroup_id() {
         return group_id;
     }
-    public void setGroup_id(int group_id) {
+    public void updateGroup_id(int group_id) {
         this.group_id = group_id;
     }
 
     public String getName() {
         return name;
     }
-    public void setName(String name) {
+    public void updateName(String name) {
         this.name = name;
     }
 
     @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;
 
     @OneToMany(mappedBy = "group")
