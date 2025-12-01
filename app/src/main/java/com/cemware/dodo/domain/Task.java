@@ -1,47 +1,36 @@
 package com.cemware.dodo.domain;
 
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
+@Getter
+@Builder
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "taskId")
-    private int task_id;
+    @Column(name = "task_id")
+    private int taskId;
 
-    private String title;
-    private String description;
-    private String status;
+    private String taskTitle;
+    private String taskDescription;
+    private String taskStatus;
 
     protected Task() {}
 
-    public int getTask_id() {
-        return task_id;
+    public void updateTaskId(int taskId) {
+        this.taskId = taskId;
     }
-    public void updateTask_id(int task_id) {
-        this.task_id = task_id;
+    public void updateTaskTitle(String title) {
+        this.taskTitle = title;
     }
-
-    public String getTitle() {
-        return title;
+    public void updateTaskDescription(String description) {
+        this.taskDescription = description;
     }
-    public void updateTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-    public void updateDescription(String description) {
-        this.description = description;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-    public void updateStatus(String status) {
-        this.status = status;
+    public void updateTaskStatus(String status) {
+        this.taskStatus = status;
     }
 
     @ManyToOne
