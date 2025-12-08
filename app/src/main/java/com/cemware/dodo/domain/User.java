@@ -2,17 +2,21 @@ package com.cemware.dodo.domain;
 
 
 import jakarta.persistence.*;
+
+import java.util.Collection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.*;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Getter
 @Builder
-public class User {
+public class User extends UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,4 +47,13 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Task> tasks;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+    }
+
+    @Override
+    public String getUsername() {
+        return this.userEmail;
+    }
 }
