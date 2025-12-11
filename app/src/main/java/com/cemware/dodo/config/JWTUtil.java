@@ -1,0 +1,60 @@
+package com.cemware.dodo.config;
+
+import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+
+@Component
+public class JWTUtil {
+
+    private final SecretKey secretKey;
+
+    /**
+     * SecretKey 값을 가져와 설정
+     */
+    public JWTUtil(@Value("${spring.jwt.secret}") String secret) {
+        secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
+    }
+
+    /**
+     * JWT에서 userEmail 추출
+     */
+    public String getUserEmail(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getPayload()
+                .get("userEmail", String.class);
+    }
+
+    /**
+     * JWT 만료 여부 확인
+     */
+    public Boolean isTokenExpired(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getPayload()
+                .getExpiration()
+                .before(new Date());
+    }
+
+    /**
+     * JWT 생성 메서드
+     */
+    public String createJwt(String userEmail, Long expiredMs) {
+        return Jwts.builder()
+                .claim("userEmail", userEmail)
+                .issuedAt(new Date(System.currentTimeMillis())) // 발급 시간
+                .expiration(new Date(System.currentTimeMillis() + expiredMs)) // 만료 시간
+                .signWith(secretKey) // 비밀키를 사용하여 서명
+                .compact();
+    }
+}
