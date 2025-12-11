@@ -4,6 +4,7 @@ package com.cemware.dodo.domain;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.*;
@@ -16,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Getter
 @Builder
-public class User extends UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +50,7 @@ public class User extends UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
+        return Collections.emptyList();
     }
 
     @Override

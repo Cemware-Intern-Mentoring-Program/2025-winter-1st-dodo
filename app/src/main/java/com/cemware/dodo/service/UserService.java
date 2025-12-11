@@ -10,6 +10,7 @@ import com.cemware.dodo.dto.group.*;
 import com.cemware.dodo.repository.UserRepository;
 import com.cemware.dodo.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +20,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     // 유저 생성
     public UserDto createUser(UserCreateRequest request) {
+
         User user = User.builder()
                 .userEmail(request.getUserEmail())
-                .password(request.getPassword())
+                .password(bCryptPasswordEncoder.encode(request.getPassword())) //비밀번호를 해싱하여 유저 정보 저장
                 .build();
 
         return UserDto.from(userRepository.save(user)); //유저 엔티티 저장
@@ -45,7 +48,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자 수정 오류"));
 
         if (request.getUserEmail() != null) user.updateUserEmail(request.getUserEmail());
-        if (request.getPassword() != null) user.updatePassword(request.getPassword());
+        if (request.getPassword() != null) user.updatePassword(bCryptPasswordEncoder.encode(request.getPassword()));
 
         return UserDto.from(userRepository.save(user));
 

@@ -1,6 +1,7 @@
 package com.cemware.dodo.config;
 
 import com.cemware.dodo.domain.User;
+import com.cemware.dodo.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,9 +19,9 @@ import java.io.IOException;
 
 @Slf4j //로그 찍어주는
 @RequiredArgsConstructor
-public class JWTFilter extends
-        OncePerRequestFilter {
+public class JWTFilter extends OncePerRequestFilter {
 
+    private final UserRepository userRepository;
     private final JWTUtil jwtUtil;
 
     @Override
@@ -33,38 +34,33 @@ public class JWTFilter extends
             filterChain.doFilter(request, response);
             return;
         }
-
         // "Bearer " 이후의 토큰 값만 추출
-        String token = authorizationHeader.substring(7);
+        String token = authorizationHeader.split(" ")[1];
 
-        try {
-            // JWT 만료 여부 검증
-            if (jwtUtil.isTokenExpired(token)) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT 토큰이 만료되었습니다.");
-                return;
-            }
+        //토큰 소멸 시간 검증
+        if (jwtUtil.isTokenExpired(token)) {
 
-            // JWT에서 사용자 정보 추출
-            String userEmail = jwtUtil.getUserEmail(token);
+            System.out.println("token expired");
+            filterChain.doFilter(request, response);
 
-            // 인증 객체 생성
-            User user = User.builder()
-                    .userEmail(userEmail)
-                    .password("N/A") // 비밀번호는 JWT 기반 인증이므로 사용하지 않음
-                    .build();
-
-            CustomUserDetails customUserDetails = new CustomUserDetails(user);
-            Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
-
-            // SecurityContext에 인증 정보 저장 (STATLESS 모드이므로 요청 종료 시 소멸)
-            if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
-
-        } catch (Exception e) {
-            log.error("JWT 필터 처리 중 오류 발생: {}", e.getMessage(), e);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "유효하지 않은 토큰입니다.");
+            //조건이 해당되면 메소드 종료 (필수)
+            return;
         }
+
+        String userEmail = jwtUtil.getUserEmail(token);
+
+        User user = userRepository.findByUserEmail(userEmail);
+        if (user == null) {
+            throw new RuntimeException("유저 없음");
+        }
+
+        //UserDetails에 회원 정보 객체 담기
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
+
+        //스프링 시큐리티 인증 토큰 생성
+        Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+        //세션에 사용자 등록
+        SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
     }

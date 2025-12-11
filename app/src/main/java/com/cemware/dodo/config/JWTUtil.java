@@ -48,7 +48,6 @@ public class JWTUtil {
 
     /**
      * JWT 생성 메서드
-     * - username, role(권한), 만료 시간(expiredMs)을 포함한 JWT 발급
      */
     public String createJwt(String userEmail, Long expiredMs) {
         return Jwts.builder()
