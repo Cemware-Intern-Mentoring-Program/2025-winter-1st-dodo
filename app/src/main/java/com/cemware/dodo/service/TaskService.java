@@ -18,7 +18,7 @@ public class TaskService {
     // task 생성
     public TaskDto createTask(TaskCreateRequest request) {
         Task task = Task.builder()
-                .taskId(request.getTaskId())
+                //.taskId(request.getTaskId())
                 .taskTitle(request.getTaskTitle())
                 .taskDescription(request.getTaskDescription())
                 .taskStatus(request.getTaskStatus())

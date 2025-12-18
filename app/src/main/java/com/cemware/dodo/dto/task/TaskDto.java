@@ -26,6 +26,7 @@ public class TaskDto {
                 .taskTitle(task.getTaskTitle())
                 .taskDescription(task.getTaskDescription())
                 .taskStatus(task.getTaskStatus())
+                .groupId(task.getGroup().getGroupId())
                 .build();
     }
 

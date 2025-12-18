@@ -11,10 +11,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor //전체 필드 생성자
 public class TaskCreateRequest {
 
-    private int taskId;
+    //private int taskId;
     private String taskTitle;
     private String taskDescription;
     private String taskStatus;
-    private int groupId;
+    //private int groupId;
 
 }

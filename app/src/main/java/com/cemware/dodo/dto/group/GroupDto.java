@@ -19,8 +19,9 @@ public class GroupDto {
 
     public static GroupDto from(Group group) {
         return GroupDto.builder()
-                //.groupId(group.getGroupId())
+                .groupId(group.getGroupId())
                 .groupName(group.getGroupName())
+                .userId(group.getUser().getUserId())
                 .build();
     }
 
