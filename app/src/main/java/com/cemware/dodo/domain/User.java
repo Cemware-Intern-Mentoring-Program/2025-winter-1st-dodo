@@ -17,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Getter
 @Builder
+@AllArgsConstructor
+@Table(name = "todo_user")
 public class User implements UserDetails {
 
     @Id

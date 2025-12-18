@@ -22,10 +22,11 @@ public class GroupService {
     private final TaskRepository taskRepository;
 
     // group 생성
-    public GroupDto createGroup(GroupCreateRequest request) {
+    public GroupDto createGroup(GroupCreateRequest request, User user) {
         Group group = Group.builder()
-                .groupId(request.getGroupId())
+                //.groupId(request.getGroupId())
                 .groupName(request.getGroupName())
+                .user(user)
                 .build();
 
         return GroupDto.from(groupRepository.save(group));

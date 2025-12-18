@@ -10,7 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Getter
-@Builder
+//@Builder
+@Table(name = "todo_group")
 public class Group {
 
     @Id
@@ -22,6 +23,11 @@ public class Group {
 
     protected Group() {}
 
+    @Builder
+    public Group(String groupName, User user) {
+        this.groupName = groupName;
+        this.user = user;
+    }
 
     public void updateGroupId(int groupId) {
         this.groupId = groupId;

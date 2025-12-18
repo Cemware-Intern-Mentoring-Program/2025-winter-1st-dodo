@@ -8,6 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 // cannot resolve symbol 'orm' 에러가 뜨는데 이유를 모르겠습니다
+import org.springframework.boot.test.context.SpringBootTest;
+
+// Source - https://stackoverflow.com/a
+// Posted by Aliuk
+// Retrieved 2025-12-16, License - CC BY-SA 4.0
 
 import java.util.Optional;
 
@@ -15,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest // 여기서도 cannot resolve symbol '@DataJpaTest' 에러가 뜨는데 이유를 모르겠습니다
 @Transactional
+class UserRepositoryTest{
 
     private UserRepository userRepository;
 

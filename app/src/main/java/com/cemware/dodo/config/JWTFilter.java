@@ -29,6 +29,8 @@ public class JWTFilter extends OncePerRequestFilter {
 
         // Authorization 헤더에서 JWT 토큰 추출
         String authorizationHeader = request.getHeader("Authorization");
+        System.out.println("Auth Header: " + request.getHeader("Authorization"));
+
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);

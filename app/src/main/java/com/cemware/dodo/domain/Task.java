@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Getter
 @Builder
+@AllArgsConstructor
+@Table(name = "todo_task")
 public class Task {
 
     @Id

@@ -9,8 +9,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     show-sql: true
 
   jwt:
-    secret=O1Vm7Yxw9H0qTz3nPwE8kZr5sL4uB2fQd9aC7xN0pK8mV6rT1yU3wH5jL9qF2sD:
+    secret: O1Vm7Yxw9H0qTz3nPwE8kZr5sL4uB2fQd9aC7xN0pK8mV6rT1yU3wH5jL9qF2sD
+
+server:
+  port: 8081

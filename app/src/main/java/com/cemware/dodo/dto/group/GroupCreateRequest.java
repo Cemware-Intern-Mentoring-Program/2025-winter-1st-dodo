@@ -11,8 +11,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class GroupCreateRequest {
 
-    private int groupId;
+    //private int groupId;
     private String groupName;
-    private int userId;
+    //private int userId;
 
 }

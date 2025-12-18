@@ -23,13 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         //DB에서 조회
         User user = userRepository.findByUserEmail(userEmail);
 
-        if (user != null) {
-
-            //UserDetails에 담아서 return하면 AutneticationManager가 검증 함
-            return new CustomUserDetails(user);
-        }
-
-        return null;
+        return new CustomUserDetails(user);
 
     }
 }

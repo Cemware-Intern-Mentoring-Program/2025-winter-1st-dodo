@@ -1,5 +1,6 @@
 package com.cemware.dodo.controller;
 
+import com.cemware.dodo.config.CustomUserDetails;
 import com.cemware.dodo.dto.task.TaskDto;
 import com.cemware.dodo.dto.group.*;
 import com.cemware.dodo.dto.task.TaskListResponse;
@@ -7,6 +8,7 @@ import com.cemware.dodo.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +30,22 @@ public class GroupController {
     private final GroupService groupService;
 
     //그룹 생성하기
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<GroupDto> createGroup(@RequestBody GroupCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(groupService.createGroup(request)); //서비스에 createGroup
+    }*/
+    @PostMapping
+    public ResponseEntity<GroupDto> createGroup(
+            @RequestBody GroupCreateRequest request,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(groupService.createGroup(request, userDetails.getUser()));
     }
 
     //group name 수정

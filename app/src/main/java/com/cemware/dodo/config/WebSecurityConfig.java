@@ -1,5 +1,6 @@
 package com.cemware.dodo.config;
 
+import com.cemware.dodo.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -37,17 +38,27 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, UserRepository userRepository) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         //모든 권한 허용
-                        .requestMatchers(HttpMethod.POST, "/user").permitAll()
+                        .requestMatchers(
+                                "/",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/login",
+                                "/user"
+                        ).permitAll()
+
+                        //.requestMatchers(HttpMethod.POST, "/user").permitAll()
                         //나머지 요청은 권한 필요
-                        .anyRequest().authenticated()
+                        //.anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
 
                 // JWT 필터 추가 (기존 UsernamePasswordAuthenticationFilter 이전에 실행)
-                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
+                .addFilterBefore(new JWTFilter(userRepository, jwtUtil), LoginFilter.class)
 
                 // 로그인 필터
                 .addFilterAt(
